@@ -1,17 +1,13 @@
-// noinspection JSUnusedGlobalSymbols
+export * from './abstract';
+export * from './all-caps';
+export * from './base';
+export * from './camel';
+export * from './header';
+export * from './kebab';
+export * from './pascal';
+export * from './regular';
+export * from './snake';
+export * from './title';
+export * from './literals';
 
-export * from './abstract-case';
-export * from './index-types';
-export * from './index-errors';
-export * from './text-case';
-
-import {textCase} from "./text-case";
-
-export const camelCase = textCase.camel;
-export const headerCase = textCase.header;
-export const kebabCase = textCase.kebab;
-export const pascalCase = textCase.pascal;
-export const regularCase = textCase.regular;
-export const snakeCase = textCase.snake;
-export const titleCase = textCase.title;
-export const upperCase = textCase.upper;
+export * from './text-case-loader';
