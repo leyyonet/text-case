@@ -9,7 +9,7 @@ import {
     validatorPool,
     ValidatorStored
 } from "@leyyo/validator";
-import {callParam, CallParams, CallValue, CallValuePro} from "@leyyo/call";
+import {callParam, CallParams, CallValue, CallValuePro} from "@leyyo/http-call";
 import {$assert, $dev, OneOrMore} from "@leyyo/common";
 import {FQN_PCK} from "../internal";
 import {CaseType, CaseTypeItems} from "../literals";
