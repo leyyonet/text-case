@@ -1,8 +1,7 @@
-import {CaseType} from "../literals";
-import {OneOrMore} from "@leyyo/common";
+import { CaseType } from '../literals';
+import { OneOrMore } from '@leyyo/common';
 
 export interface TextCaseLike {
-
     // region base
     which(value: unknown): Array<CaseType>;
     is(type: OneOrMore<CaseType>, value: unknown): boolean;
@@ -44,8 +43,8 @@ export interface TextCaseLike {
     toSnakeCase(value: unknown): string;
     // endregion snake-case
 
-    // region title-case
-    isTitleCase(value: unknown): boolean;
-    toTitleCase(value: unknown): string;
-    // endregion title-case
+    // region sentence-case
+    isSentenceCase(value: unknown): boolean;
+    toSentenceCase(value: unknown): string;
+    // endregion sentence-case
 }

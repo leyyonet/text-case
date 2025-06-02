@@ -1,29 +1,45 @@
-import {$to, Dict} from '@leyyo/common';
+import { $is, $to } from '@leyyo/common';
 import { Bind, Fqn } from '@leyyo/core';
-import { AssignType, CastApiDocResponse, CastPriority } from '@leyyo/cast';
-import { AbstractCase } from '../abstract';
-import { FQN_PCK } from '../internal';
+import { CastAlias, CastBasic, CastDocCallback, CastDocResponse, CastPriority } from '@leyyo/cast';
+import { FQN } from '../internal';
 
-@Fqn(FQN_PCK)
-@AssignType('Capitalize')
+@Fqn(FQN)
+@CastBasic()
+@CastAlias('Capitalize')
 @Bind('static')
-export class PascalCase extends AbstractCase {
-    protected static readonly _PATTERN = /^[A-Z]+([A-Z]*([a-z]|\d(?![a-z]))*)+$|^$/;
+export class PascalCase {
     static readonly priority = {
         string: 1,
         any: 99,
     } as CastPriority;
 
-    static is(value: unknown): boolean {
-        const str = $to.text(value);
-        return str ? this._PATTERN.test(str) : false;
+    static exact(value: unknown): boolean {
+        return $is.text(value) && /^[$]*[A-Z][a-z0-9$]*(?:[A-Z][a-z0-9$]+)*$/g.test(value as string);
     }
 
-    protected static _cast(values: Array<string>): string {
-        return values.map(part => this._toFirstUpper(part)).join('');
+    static cast(value: unknown): string {
+        let str = $to.text(value);
+        if (!str) {
+            return str;
+        }
+        let count = 0;
+        while (str.startsWith('$')) {
+            count++;
+            str = str.slice(1);
+        }
+        str = str
+            .replace(/[.,_?!]/g, '-')
+            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z$]+[0-9]*|[A-Z]|[0-9]+/g)
+            .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
+            .join('');
+        if (count < 1) {
+            return str;
+        }
+        return str.padStart(count + str.length, '$');
     }
 
-    static doc(_target: unknown, _property: PropertyKey, _openApi: Dict): CastApiDocResponse {
-        return { type: 'string', format: 'pascal-case' };
+    static doc(openApi: CastDocCallback): CastDocResponse {
+        return openApi(this, { type: 'string', format: 'pascal-case' });
     }
 }
+export const Capitalize = PascalCase;

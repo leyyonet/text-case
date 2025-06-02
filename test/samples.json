@@ -1,5 +1,16 @@
 [
   {
+    "word": "basic",
+    "camelCase": "basic",
+    "headerCase": "Basic",
+    "kebabCase": "basic",
+    "pascalCase": "Basic",
+    "regularCase": "basic",
+    "snakeCase": "basic",
+    "sentenceCase": "Basic",
+    "allCaps": "BASIC"
+  },
+  {
     "word": "fooBar",
     "camelCase": "fooBar",
     "headerCase": "Foo Bar",
@@ -7,8 +18,63 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
+  },
+  {
+    "word": "JWTParser",
+    "camelCase": "jwtParser",
+    "headerCase": "Jwt Parser",
+    "kebabCase": "jwt-parser",
+    "pascalCase": "JwtParser",
+    "regularCase": "jwt parser",
+    "snakeCase": "jwt_parser",
+    "sentenceCase": "Jwt parser",
+    "allCaps": "JWT_PARSER"
+  },
+  {
+    "word": "foo123Bar",
+    "camelCase": "foo123Bar",
+    "headerCase": "Foo123 Bar",
+    "kebabCase": "foo123-bar",
+    "pascalCase": "Foo123Bar",
+    "regularCase": "foo123 bar",
+    "snakeCase": "foo123_bar",
+    "sentenceCase": "Foo123 bar",
+    "allCaps": "FOO123_BAR"
+  },
+  {
+    "word": "foo$Bar",
+    "camelCase": "foo$Bar",
+    "headerCase": "Foo Bar",
+    "kebabCase": "foo$-bar",
+    "pascalCase": "Foo$Bar",
+    "regularCase": "foo bar",
+    "snakeCase": "foo$_bar",
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO$_BAR"
+  },
+  {
+    "word": "$fooBar",
+    "camelCase": "$fooBar",
+    "headerCase": "Foo Bar",
+    "kebabCase": "$foo-bar",
+    "pascalCase": "$FooBar",
+    "regularCase": "foo bar",
+    "snakeCase": "$foo_bar",
+    "sentenceCase": "Foo bar",
+    "allCaps": "$FOO_BAR"
+  },
+  {
+    "word": "fooBar$",
+    "camelCase": "fooBar$",
+    "headerCase": "Foo Bar",
+    "kebabCase": "foo-bar$",
+    "pascalCase": "FooBar$",
+    "regularCase": "foo bar",
+    "snakeCase": "foo_bar$",
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR$"
   },
   {
     "word": "FooBar",
@@ -18,8 +84,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "foo-bar",
@@ -29,8 +95,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "foo_bar",
@@ -40,8 +106,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "FOO_BAR",
@@ -51,8 +117,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "foo bar",
@@ -62,8 +128,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "Foo bar",
@@ -73,8 +139,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "foo--bar",
@@ -84,8 +150,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "--foo--bar",
@@ -95,8 +161,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "foo-bar--",
@@ -106,8 +172,8 @@
     "pascalCase": "FooBar",
     "regularCase": "foo bar",
     "snakeCase": "foo_bar",
-    "titleCase": "Foo bar",
-    "upperCase": "FOO_BAR"
+    "sentenceCase": "Foo bar",
+    "allCaps": "FOO_BAR"
   },
   {
     "word": "clickURL",
@@ -117,8 +183,8 @@
     "pascalCase": "ClickUrl",
     "regularCase": "click url",
     "snakeCase": "click_url",
-    "titleCase": "Click url",
-    "upperCase": "CLICK_URL"
+    "sentenceCase": "Click url",
+    "allCaps": "CLICK_URL"
   },
   {
     "word": "URL_address",
@@ -128,7 +194,7 @@
     "pascalCase": "UrlAddress",
     "regularCase": "url address",
     "snakeCase": "url_address",
-    "titleCase": "Url address",
-    "upperCase": "URL_ADDRESS"
+    "sentenceCase": "Url address",
+    "allCaps": "URL_ADDRESS"
   }
 ]

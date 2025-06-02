@@ -1,29 +1,34 @@
-import {$to, Dict} from '@leyyo/common';
+import { $is, $to } from '@leyyo/common';
 import { Bind, Fqn } from '@leyyo/core';
-import { AssignType, CastApiDocResponse, CastPriority } from '@leyyo/cast';
-import { AbstractCase } from '../abstract';
-import { FQN_PCK } from '../internal';
+import { CastBasic, CastDocCallback, CastDocResponse, CastPriority } from '@leyyo/cast';
+import { FQN } from '../internal';
 
-@Fqn(FQN_PCK)
-@AssignType('Camelize')
+@Fqn(FQN)
+@CastBasic()
 @Bind('static')
-export class KebabCase extends AbstractCase {
-    protected static readonly _PATTERN = new RegExp(`^([a-z](?!\d)|\d(?![a-z]))+(\-?([a-z](?!\d)|\d(?![a-z])))*$|^$`, 'g');
+export class KebabCase {
     static readonly priority = {
         string: 1,
         any: 99,
     } as CastPriority;
 
-    static is(value: unknown): boolean {
+    static exact(value: unknown): boolean {
+        return $is.text(value) && /^[a-z$]+[a-z0-9$]*(-[a-z0-9$]+)*$/g.test(value as string);
+    }
+
+    static cast(value: unknown): string {
         const str = $to.text(value);
-        return str ? this._PATTERN.test(str) : false;
+        if (!str) {
+            return str;
+        }
+        return str
+            .replace(/[.,_?!]/g, '-')
+            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z$]+[0-9]*|[A-Z]|[0-9]+/g)
+            .map((x) => x.toLowerCase())
+            .join('-');
     }
 
-    protected static _cast(values: Array<string>): string {
-        return values.join('-').toLowerCase();
-    }
-
-    static doc(_target: unknown, _property: PropertyKey, _openApi: Dict): CastApiDocResponse {
-        return { type: 'string', format: 'kebab-case' };
+    static doc(openApi: CastDocCallback): CastDocResponse {
+        return openApi(this, { type: 'string', format: 'kebab-case' });
     }
 }

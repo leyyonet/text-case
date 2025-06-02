@@ -1,29 +1,38 @@
-import {$to, Dict} from '@leyyo/common';
+import { $is, $to } from '@leyyo/common';
 import { Bind, Fqn } from '@leyyo/core';
-import { AssignType, CastApiDocResponse, CastPriority } from '@leyyo/cast';
-import { AbstractCase } from '../abstract';
-import { FQN_PCK } from '../internal';
+import { CastAlias, CastBasic, CastDocCallback, CastDocResponse, CastPriority } from '@leyyo/cast';
+import { FQN } from '../internal';
+import { textCaseHelper } from '../helper';
 
-@Fqn(FQN_PCK)
-@AssignType('Camelize')
+@Fqn(FQN)
+@CastBasic()
+@CastAlias('Camelize')
 @Bind('static')
-export class CamelCase extends AbstractCase {
-    protected static readonly _PATTERN = /^[a-z]+([A-Z]*([a-z]|\d(?![a-z]))*)+$|^$/;
+export class CamelCase {
     static readonly priority = {
         string: 1,
         any: 99,
     } as CastPriority;
 
-    static is(value: unknown): boolean {
-        const str = $to.text(value);
-        return str ? this._PATTERN.test(str) : false;
+    static exact(value: unknown): boolean {
+        return $is.text(value) && /^[a-z$]+[a-z0-9$]*(?:[A-Z][a-z0-9$]+)*$/g.test(value as string);
     }
 
-    protected static _cast(values: Array<string>): string {
-        return values.map((part, index) => (index > 0) ? this._toFirstUpper(part) : part.toLowerCase()).join('');
+    static cast(value: unknown): string {
+        let str = $to.text(value);
+        if (!str) {
+            return str;
+        }
+        str = str
+            .replace(/[.,_?!]/g, '-')
+            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z$]+[0-9]*|[A-Z]|[0-9]+/g)
+            .map((x) => textCaseHelper.firstUpperAll(x))
+            .join('');
+        return textCaseHelper.lowerUpperAt(str);
     }
 
-    static doc(_target: unknown, _property: PropertyKey, _openApi: Dict): CastApiDocResponse {
-        return { type: 'string', format: 'camel-case' };
+    static doc(openApi: CastDocCallback): CastDocResponse {
+        return openApi(this, { type: 'string', format: 'camel-case' });
     }
 }
+export const Camelize = CamelCase;

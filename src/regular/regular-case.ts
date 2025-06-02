@@ -1,27 +1,57 @@
-import { Dict } from '@leyyo/common';
+import { $is, $to } from '@leyyo/common';
 import { Bind, Fqn } from '@leyyo/core';
-import { AssignType, CastApiDocResponse, CastPriority } from '@leyyo/cast';
-import { AbstractCase } from '../abstract';
-import { FQN_PCK } from '../internal';
+import { CastAlias, CastBasic, CastDocCallback, CastDocResponse, CastPriority } from '@leyyo/cast';
+import { FQN } from '../internal';
 
-@Fqn(FQN_PCK)
-@AssignType('Humanize')
+@Fqn(FQN)
+@CastBasic()
+@CastAlias('Humanize')
 @Bind('static')
-export class RegularCase extends AbstractCase {
+export class RegularCase {
     static readonly priority = {
         string: 1,
         any: 99,
     } as CastPriority;
 
-    static is(value: unknown): boolean {
-        return value && this.cast(value) === value;
+    static exact(value: unknown): boolean {
+        return $is.text(value) && /^[a-z]+[a-z0-9$]*( [a-z0-9$]*)*$/g.test(value as string);
     }
 
-    protected static _cast(values: Array<string>): string {
-        return values.map((part) => part.toLowerCase()).join(' ');
+    static cast(value: unknown): string {
+        let str = $to.text(value);
+        if (!str) {
+            return str;
+        }
+        str = str
+            .replace(/[.,_?!]/g, '-')
+            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z$]+[0-9]*|[A-Z]|[0-9]+/g)
+            .map((x) => x.toLowerCase())
+            .join(' ');
+        return str
+            .split(' ')
+            .map((part) => {
+                if (!part.startsWith('$')) {
+                    return part;
+                }
+                while (part.startsWith('$')) {
+                    part = part.slice(1);
+                }
+                return part;
+            })
+            .map((part) => {
+                if (!part.endsWith('$')) {
+                    return part;
+                }
+                while (part.endsWith('$')) {
+                    part = part.substring(0, part.length - 1);
+                }
+                return part;
+            })
+            .join(' ');
     }
 
-    static doc(_target: unknown, _property: PropertyKey, _openApi: Dict): CastApiDocResponse {
-        return { type: 'string' };
+    static doc(openApi: CastDocCallback): CastDocResponse {
+        return openApi(this, { type: 'string', format: 'regular-case' });
     }
 }
+export const Humanize = RegularCase;

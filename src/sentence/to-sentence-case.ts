@@ -2,16 +2,16 @@ import { decoratorPool } from '@leyyo/core';
 import { IdPipe, PipeMetadata, PipeOpt, PipeOptExt, PipeParam, pipePool, PipeStored } from '@leyyo/pipe';
 import { CallParams } from '@leyyo/http-call';
 import { FQN } from '../internal';
-import { CamelCase } from './camel-case';
+import { SentenceCase } from './sentence-case';
 
 type P = CallParams;
 type E = string;
 
-export function ToCamelCase(opt?: PipeOpt): PropertyDecorator;
-export function ToCamelCase(opt?: PipeOpt): ParameterDecorator;
-export function ToCamelCase(opt?: PipeOptExt): ClassDecorator;
-export function ToCamelCase(opt?: PipeOptExt): MethodDecorator;
-export function ToCamelCase(
+export function ToSentenceCase(opt?: PipeOpt): PropertyDecorator;
+export function ToSentenceCase(opt?: PipeOpt): ParameterDecorator;
+export function ToSentenceCase(opt?: PipeOptExt): ClassDecorator;
+export function ToSentenceCase(opt?: PipeOptExt): MethodDecorator;
+export function ToSentenceCase(
     opt?: PipeOpt | PipeOptExt,
 ): PropertyDecorator | ParameterDecorator | MethodDecorator | ClassDecorator {
     return (clazz: object, property?: PropertyKey, index?: number | TypedPropertyDescriptor<unknown>) =>
@@ -19,7 +19,7 @@ export function ToCamelCase(
 }
 
 const deco = decoratorPool
-    .newId<PipeStored<P>, PipeMetadata<P, E>, PipeParam>(ToCamelCase)
+    .newId<PipeStored<P>, PipeMetadata<P, E>, PipeParam>(ToSentenceCase)
     .fqn(FQN)
     .targets('field', 'parameter', 'class', 'method')
     .keywords(IdPipe)
@@ -31,7 +31,6 @@ const deco = decoratorPool
     .metadata({
         is: (data) => typeof data === 'string' && data !== '',
         transforms: (data, current) => {
-            return current.changed(CamelCase.cast(data));
+            return current.changed(SentenceCase.cast(data));
         },
     });
-export const ToCamelize = ToCamelCase;

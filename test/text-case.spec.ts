@@ -1,60 +1,45 @@
 import { strict as assert } from 'assert';
-import fs from "fs";
-import {SampleItem, textCase} from "../src";
-const samples = JSON.parse(fs.readFileSync(__dirname + '/../src/assets/samples.json','utf8')) as Array<SampleItem>;
-describe('#camel', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.camel.cast(wordItem.word), wordItem.camelCase);
+
+import { textCase } from '../src';
+
+describe('TextCase', () => {
+    describe('which', () => {
+        it(`'basic' are ['camel-case', 'kebab-case', 'regular-case', 'snake-case']`, () => {
+            assert.deepEqual(textCase.which('basic'), ['camel-case', 'kebab-case', 'regular-case', 'snake-case']);
+        });
+
+        it(`'Basic' are ['header-case', 'pascal-case', 'sentence-case']`, () => {
+            assert.deepEqual(textCase.which('Basic'), ['header-case', 'pascal-case', 'sentence-case']);
+        });
+
+        it(`'BASIC' is ['all-caps']`, () => {
+            assert.deepEqual(textCase.which('BASIC'), ['all-caps']);
         });
     });
-});
-describe('#header', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.header.cast(wordItem.word), wordItem.headerCase);
+
+    describe('is', () => {
+        it(`'basic' in ['camel-case', 'kebab-case', 'regular-case', 'snake-case']`, () => {
+            assert.equal(textCase.is(['camel-case', 'kebab-case', 'regular-case', 'snake-case'], 'basic'), true);
         });
-    });
-});
-describe('#kebab', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.kebab.cast(wordItem.word), wordItem.kebabCase);
+
+        it(`'basic' not in ['pascal-case', 'header-case', 'sentence-case', 'all-caps']`, () => {
+            assert.equal(textCase.is(['pascal-case', 'header-case', 'sentence-case', 'all-caps'], 'basic'), false);
         });
-    });
-});
-describe('#pascal', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.pascal.cast(wordItem.word), wordItem.pascalCase);
+
+        it(`'Basic' in ['header-case', 'pascal-case', 'sentence-case']`, () => {
+            assert.equal(textCase.is(['header-case', 'pascal-case', 'sentence-case'], 'Basic'), true);
         });
-    });
-});
-describe('#regular', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.regular.cast(wordItem.word), wordItem.regularCase);
+
+        it(`'Basic' not in ['regular-case', 'kebab-case', 'snake-case']`, () => {
+            assert.equal(textCase.is(['regular-case', 'kebab-case', 'snake-case'], 'Basic'), false);
         });
-    });
-});
-describe('#snake', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.snake.cast(wordItem.word), wordItem.snakeCase);
+
+        it(`'BASIC' in ['all-caps']`, () => {
+            assert.equal(textCase.is(['all-caps'], 'BASIC'), true);
         });
-    });
-});
-describe('#title', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.title.cast(wordItem.word), wordItem.titleCase);
-        });
-    });
-});
-describe('#upper', () => {
-    samples.forEach(wordItem => {
-        it(wordItem.word, () => {
-            assert.strictEqual(textCase.upper.cast(wordItem.word), wordItem.upperCase);
+
+        it(`'BASIC' not in ['camel-case']`, () => {
+            assert.equal(textCase.is(['camel-case'], 'BASIC'), false);
         });
     });
 });

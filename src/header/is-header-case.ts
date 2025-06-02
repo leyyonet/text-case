@@ -1,4 +1,4 @@
-import {decoratorPool} from "@leyyo/core";
+import { decoratorPool } from '@leyyo/core';
 import {
     IdValidator,
     Placeholder,
@@ -7,11 +7,11 @@ import {
     ValidatorOptExt,
     ValidatorParam,
     validatorPool,
-    ValidatorStored
-} from "@leyyo/validator";
-import {CallParams} from "@leyyo/http-call";
-import {FQN_PCK} from "../internal";
-import {HeaderCase} from "./header-case";
+    ValidatorStored,
+} from '@leyyo/validator';
+import { CallParams } from '@leyyo/http-call';
+import { FQN } from '../internal';
+import { HeaderCase } from './header-case';
 
 type H = Placeholder;
 type P = CallParams;
@@ -29,30 +29,33 @@ export function IsHeaderCase(opt?: ValidatorOpt): PropertyDecorator;
 export function IsHeaderCase(opt?: ValidatorOpt): ParameterDecorator;
 export function IsHeaderCase(opt?: ValidatorOptExt): ClassDecorator;
 export function IsHeaderCase(opt?: ValidatorOptExt): MethodDecorator;
-export function IsHeaderCase(opt?: ValidatorOpt | ValidatorOptExt): PropertyDecorator | ParameterDecorator | ClassDecorator | MethodDecorator {
-    return (clazz: object, property?: PropertyKey, index?: number) =>
-        deco.process([clazz, property, index], {opt});
+export function IsHeaderCase(
+    opt?: ValidatorOpt | ValidatorOptExt,
+): PropertyDecorator | ParameterDecorator | ClassDecorator | MethodDecorator {
+    return (clazz: object, property?: PropertyKey, index?: number) => deco.process([clazz, property, index], { opt });
 }
 
-const deco = decoratorPool.newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>, ValidatorParam>(IsHeaderCase)
-    .fqn(FQN_PCK)
+const deco = decoratorPool
+    .newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>, ValidatorParam>(IsHeaderCase)
+    .fqn(FQN)
     .targets('field', 'parameter')
     .keywords(IdValidator)
     .keywords('ph:field', 'ph:deco', 'ph:data')
     .processor((ins, p) => {
         const opt = validatorPool.options(ins, p.opt);
         const params = {} as P;
-        ins.set({opt, params});
+        ins.set({ opt, params });
     })
     .metadata({
         error: '{{field}} must be header case',
         is: (data) => typeof data === 'string',
         validates: (data, current) => {
-
-            if (!HeaderCase.is(data)) {
+            if (!HeaderCase.exact(data)) {
                 return current.failed({});
             }
 
             return current.ignored();
-        }
+        },
     });
+export const IsLabelCase = IsHeaderCase;
+export const IsTitleCase = IsHeaderCase;

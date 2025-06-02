@@ -1,21 +1,21 @@
 import { $is, $to } from '@leyyo/common';
 import { Bind, Fqn } from '@leyyo/core';
-import { CastAlias, CastBasic, CastDocCallback, CastDocResponse, CastPriority } from '@leyyo/cast';
+import { CastBasic, CastDocCallback, CastDocResponse, CastPriority } from '@leyyo/cast';
+
 import { FQN } from '../internal';
 import { textCaseHelper } from '../helper';
 
 @Fqn(FQN)
 @CastBasic()
-@CastAlias('LabelCase', 'TitleCase')
 @Bind('static')
-export class HeaderCase {
+export class SentenceCase {
     static readonly priority = {
         string: 1,
         any: 99,
     } as CastPriority;
 
     static exact(value: unknown): boolean {
-        return $is.text(value) && /^[A-Z][a-z0-9]*( [A-Z]+[a-z0-9]*)*$/g.test(value as string);
+        return $is.text(value) && /^[A-Z][a-z0-9$]*( [a-z0-9$]*)*$/g.test(value as string);
     }
 
     static cast(value: unknown): string {
@@ -26,18 +26,24 @@ export class HeaderCase {
         str = str
             .replace(/[.,_?!]/g, '-')
             .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z$]+[0-9]*|[A-Z]|[0-9]+/g)
-            .map((x) => textCaseHelper.firstUpperAll(x))
+            .map((x) => x.toLowerCase())
             .join(' ');
         return str
             .split(' ')
-            .map((part) => {
+            .map((part, index) => {
                 if (!part.startsWith('$')) {
+                    if (index === 0) {
+                        return textCaseHelper.firstUpperAll(part);
+                    }
                     return part;
                 }
                 while (part.startsWith('$')) {
                     part = part.slice(1);
                 }
-                return textCaseHelper.firstUpperAt(part);
+                if (index === 0) {
+                    return textCaseHelper.firstUpperAll(part);
+                }
+                return part;
             })
             .map((part) => {
                 if (!part.endsWith('$')) {
@@ -52,8 +58,6 @@ export class HeaderCase {
     }
 
     static doc(openApi: CastDocCallback): CastDocResponse {
-        return openApi(this, { type: 'string', format: 'header-case' });
+        return openApi(this, { type: 'string', format: 'sentence-case' });
     }
 }
-export const LabelCase = HeaderCase;
-export const TitleCase = HeaderCase;

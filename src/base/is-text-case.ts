@@ -1,4 +1,4 @@
-import {decoratorPool} from "@leyyo/core";
+import { decoratorPool } from '@leyyo/core';
 import {
     IdValidator,
     Placeholder,
@@ -7,13 +7,13 @@ import {
     ValidatorOptExt,
     ValidatorParam,
     validatorPool,
-    ValidatorStored
-} from "@leyyo/validator";
-import {callParam, CallParams, CallValue, CallValuePro} from "@leyyo/http-call";
-import {$assert, $dev, OneOrMore} from "@leyyo/common";
-import {FQN_PCK} from "../internal";
-import {CaseType, CaseTypeItems} from "../literals";
-import {textCase} from "./text-case";
+    ValidatorStored,
+} from '@leyyo/validator';
+import { callParam, CallParams, CallValue, CallValuePro } from '@leyyo/http-call';
+import { $assert, $dev, OneOrMore } from '@leyyo/common';
+import { FQN } from '../internal';
+import { CaseType, CaseTypeItems } from '../literals';
+import { textCase } from './text-case';
 
 type H = Placeholder;
 interface P extends CallParams {
@@ -33,13 +33,17 @@ export function IsTextCase(type: CallValue<OneOrMore<CaseType>>, opt?: Validator
 export function IsTextCase(type: CallValue<OneOrMore<CaseType>>, opt?: ValidatorOpt): ParameterDecorator;
 export function IsTextCase(type: CallValue<OneOrMore<CaseType>>, opt?: ValidatorOptExt): ClassDecorator;
 export function IsTextCase(type: CallValue<OneOrMore<CaseType>>, opt?: ValidatorOptExt): MethodDecorator;
-export function IsTextCase(params: CallValue<OneOrMore<CaseType>>, opt?: ValidatorOpt | ValidatorOptExt): PropertyDecorator | ParameterDecorator | ClassDecorator | MethodDecorator {
+export function IsTextCase(
+    params: CallValue<OneOrMore<CaseType>>,
+    opt?: ValidatorOpt | ValidatorOptExt,
+): PropertyDecorator | ParameterDecorator | ClassDecorator | MethodDecorator {
     return (clazz: object, property?: PropertyKey, index?: number) =>
-        deco.process([clazz, property, index], {params, opt});
+        deco.process([clazz, property, index], { params, opt });
 }
 
-const deco = decoratorPool.newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>, ValidatorParam>(IsTextCase)
-    .fqn(FQN_PCK)
+const deco = decoratorPool
+    .newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>, ValidatorParam>(IsTextCase)
+    .fqn(FQN)
     .targets('field', 'parameter')
     .keywords(IdValidator)
     .keywords('ph:field', 'ph:deco', 'ph:data')
@@ -47,20 +51,20 @@ const deco = decoratorPool.newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>,
         const opt = validatorPool.options(ins, p.opt);
         const params = callParam.get<P>(ins, p.params, {
             type: {
-                type: ['string'], primary: true,
-                cast: v => {
+                type: ['string'],
+                primary: true,
+                cast: (v) => {
                     if (Array.isArray(v)) {
-                        $assert.literalArray(v, CaseTypeItems, () => $dev.desc(ins, {field: 'type'}));
+                        $assert.literalArray(v, CaseTypeItems, () => $dev.desc(ins, { field: 'type' }));
                         return v;
-                    }
-                    else {
-                        $assert.literal(v, CaseTypeItems, () => $dev.desc(ins, {field: 'type'}));
+                    } else {
+                        $assert.literal(v, CaseTypeItems, () => $dev.desc(ins, { field: 'type' }));
                         return [v];
                     }
-                }
-            }
+                },
+            },
         });
-        ins.set({opt, params});
+        ins.set({ opt, params });
     })
     .metadata({
         error: '{{field}} must be camel case',
@@ -72,5 +76,5 @@ const deco = decoratorPool.newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>,
             }
 
             return current.ignored();
-        }
+        },
     });

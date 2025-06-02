@@ -1,1 +1,1 @@
-export const FQN_PCK = 'leyyo.text-case';
+export const FQN = 'leyyo.text_case';

@@ -47,10 +47,10 @@ export const CaseTypeItems = [
     'snake-case',
 
     /*
-    * Title Case
+    * Sentence Case
     * @sample: Foo bar
     * */
-    'title-case',
+    'sentence-case',
 
 ] as const;
 /**

@@ -1,8 +1,8 @@
-import {decoratorPool} from "@leyyo/core";
-import {IdPipe, PipeMetadata, PipeOpt, PipeOptExt, PipeParam, pipePool, PipeStored} from "@leyyo/pipe";
-import {CallParams} from "@leyyo/http-call";
-import {FQN_PCK} from "../internal";
-import {PascalCase} from "./pascal-case";
+import { decoratorPool } from '@leyyo/core';
+import { IdPipe, PipeMetadata, PipeOpt, PipeOptExt, PipeParam, pipePool, PipeStored } from '@leyyo/pipe';
+import { CallParams } from '@leyyo/http-call';
+import { FQN } from '../internal';
+import { PascalCase } from './pascal-case';
 
 type P = CallParams;
 type E = string;
@@ -11,24 +11,27 @@ export function ToPascalCase(opt?: PipeOpt): PropertyDecorator;
 export function ToPascalCase(opt?: PipeOpt): ParameterDecorator;
 export function ToPascalCase(opt?: PipeOptExt): ClassDecorator;
 export function ToPascalCase(opt?: PipeOptExt): MethodDecorator;
-export function ToPascalCase(opt?: PipeOpt | PipeOptExt): PropertyDecorator | ParameterDecorator | MethodDecorator | ClassDecorator {
-    return (clazz: object, property?: PropertyKey, index?: number | TypedPropertyDescriptor<any>) =>
-        deco.process([clazz, property, index], {opt});
+export function ToPascalCase(
+    opt?: PipeOpt | PipeOptExt,
+): PropertyDecorator | ParameterDecorator | MethodDecorator | ClassDecorator {
+    return (clazz: object, property?: PropertyKey, index?: number | TypedPropertyDescriptor<unknown>) =>
+        deco.process([clazz, property, index], { opt });
 }
 
-
-const deco = decoratorPool.newId<PipeStored<P>, PipeMetadata<P, E>, PipeParam>(ToPascalCase)
-    .fqn(FQN_PCK)
+const deco = decoratorPool
+    .newId<PipeStored<P>, PipeMetadata<P, E>, PipeParam>(ToPascalCase)
+    .fqn(FQN)
     .targets('field', 'parameter', 'class', 'method')
     .keywords(IdPipe)
     .processor((ins, p) => {
         const opt = pipePool.options(ins, p.opt);
         const params = {} as P;
-        ins.set({opt, params});
+        ins.set({ opt, params });
     })
     .metadata({
-        is: data => typeof data === 'string' && data !== '',
+        is: (data) => typeof data === 'string' && data !== '',
         transforms: (data, current) => {
             return current.changed(PascalCase.cast(data));
-        }
+        },
     });
+export const ToCapitalize = ToPascalCase;

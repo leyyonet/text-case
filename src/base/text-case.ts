@@ -1,67 +1,66 @@
-import {Fqn} from "@leyyo/core";
-import {$is, OneOrMore} from "@leyyo/common";
-import {TextCaseLike} from "./index.types";
-import {FQN_PCK} from "../internal";
-import {AllCaps} from "../all-caps";
-import {CamelCase} from "../camel";
-import {HeaderCase} from "../header";
-import {KebabCase} from "../kebab";
-import {PascalCase} from "../pascal";
-import {RegularCase} from "../regular";
-import {SnakeCase} from "../snake";
-import {TitleCase} from "../title";
-import {CaseType} from "../literals";
+import { Fqn } from '@leyyo/core';
+import { $is, OneOrMore } from '@leyyo/common';
+import { TextCaseLike } from './index.types';
+import { FQN } from '../internal';
+import { AllCaps } from '../all-caps';
+import { CamelCase } from '../camel';
+import { HeaderCase } from '../header';
+import { KebabCase } from '../kebab';
+import { PascalCase } from '../pascal';
+import { RegularCase } from '../regular';
+import { SnakeCase } from '../snake';
+import { SentenceCase } from '../sentence';
+import { CaseType } from '../literals';
 
-@Fqn(FQN_PCK)
+@Fqn(FQN)
 class TextCase implements TextCaseLike {
-
     // region base
     which(value: unknown): Array<CaseType> {
         const result = [] as Array<CaseType>;
-        if (AllCaps.is(value)) {
+        if (AllCaps.exact(value)) {
             result.push('all-caps');
         }
-        if (CamelCase.is(value)) {
+        if (CamelCase.exact(value)) {
             result.push('camel-case');
         }
-        if (HeaderCase.is(value)) {
+        if (HeaderCase.exact(value)) {
             result.push('header-case');
         }
-        if (KebabCase.is(value)) {
+        if (KebabCase.exact(value)) {
             result.push('kebab-case');
         }
-        if (PascalCase.is(value)) {
+        if (PascalCase.exact(value)) {
             result.push('pascal-case');
         }
-        if (RegularCase.is(value)) {
+        if (RegularCase.exact(value)) {
             result.push('regular-case');
         }
-        if (SnakeCase.is(value)) {
+        if (SnakeCase.exact(value)) {
             result.push('snake-case');
         }
-        if (TitleCase.is(value)) {
-            result.push('title-case');
+        if (SentenceCase.exact(value)) {
+            result.push('sentence-case');
         }
         return result;
     }
     protected _is(type: CaseType, value: unknown): boolean {
         switch (type) {
             case 'all-caps':
-                return AllCaps.is(value);
+                return AllCaps.exact(value);
             case 'camel-case':
-                return CamelCase.is(value);
+                return CamelCase.exact(value);
             case 'header-case':
-                return HeaderCase.is(value);
+                return HeaderCase.exact(value);
             case 'kebab-case':
-                return KebabCase.is(value);
+                return KebabCase.exact(value);
             case 'pascal-case':
-                return PascalCase.is(value);
+                return PascalCase.exact(value);
             case 'regular-case':
-                return RegularCase.is(value);
+                return RegularCase.exact(value);
             case 'snake-case':
-                return SnakeCase.is(value);
-            case 'title-case':
-                return TitleCase.is(value);
+                return SnakeCase.exact(value);
+            case 'sentence-case':
+                return SentenceCase.exact(value);
             default:
                 return false;
         }
@@ -96,8 +95,8 @@ class TextCase implements TextCaseLike {
                 return RegularCase.cast(value);
             case 'snake-case':
                 return SnakeCase.cast(value);
-            case 'title-case':
-                return TitleCase.cast(value);
+            case 'sentence-case':
+                return SentenceCase.cast(value);
             default:
                 return undefined;
         }
@@ -106,7 +105,7 @@ class TextCase implements TextCaseLike {
 
     // region all-caps
     isAllCaps(value: unknown): boolean {
-        return AllCaps.is(value);
+        return AllCaps.exact(value);
     }
 
     toAllCaps(value: unknown): string {
@@ -116,7 +115,7 @@ class TextCase implements TextCaseLike {
 
     // region camel-case
     isCamelCase(value: unknown): boolean {
-        return CamelCase.is(value);
+        return CamelCase.exact(value);
     }
 
     toCamelCase(value: unknown): string {
@@ -126,7 +125,7 @@ class TextCase implements TextCaseLike {
 
     // region header-case
     isHeaderCase(value: unknown): boolean {
-        return HeaderCase.is(value);
+        return HeaderCase.exact(value);
     }
 
     toHeaderCase(value: unknown): string {
@@ -136,7 +135,7 @@ class TextCase implements TextCaseLike {
 
     // region kebab-case
     isKebabCase(value: unknown): boolean {
-        return KebabCase.is(value);
+        return KebabCase.exact(value);
     }
 
     toKebabCase(value: unknown): string {
@@ -146,7 +145,7 @@ class TextCase implements TextCaseLike {
 
     // region pascal-case
     isPascalCase(value: unknown): boolean {
-        return PascalCase.is(value);
+        return PascalCase.exact(value);
     }
 
     toPascalCase(value: unknown): string {
@@ -156,7 +155,7 @@ class TextCase implements TextCaseLike {
 
     // region regular-case
     isRegularCase(value: unknown): boolean {
-        return RegularCase.is(value);
+        return RegularCase.exact(value);
     }
 
     toRegularCase(value: unknown): string {
@@ -166,7 +165,7 @@ class TextCase implements TextCaseLike {
 
     // region snake-case
     isSnakeCase(value: unknown): boolean {
-        return SnakeCase.is(value);
+        return SnakeCase.exact(value);
     }
 
     toSnakeCase(value: unknown): string {
@@ -174,15 +173,14 @@ class TextCase implements TextCaseLike {
     }
     // endregion snake-case
 
-    // region title-case
-    isTitleCase(value: unknown): boolean {
-        return TitleCase.is(value);
+    // region sentence-case
+    isSentenceCase(value: unknown): boolean {
+        return SentenceCase.exact(value);
     }
 
-    toTitleCase(value: unknown): string {
-        return TitleCase.cast(value);
+    toSentenceCase(value: unknown): string {
+        return SentenceCase.cast(value);
     }
-    // endregion title-case
-
+    // endregion sentence-case
 }
 export const textCase: TextCaseLike = new TextCase();

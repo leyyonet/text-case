@@ -11,32 +11,32 @@ import {
 } from '@leyyo/validator';
 import { CallParams } from '@leyyo/http-call';
 import { FQN } from '../internal';
-import { RegularCase } from './regular-case';
+import { SentenceCase } from './sentence-case';
 
 type H = Placeholder;
 type P = CallParams;
 type E = string;
 
 /**
- * Data must be regular case
+ * Data must be sentence case
  *
  * Conditions
  * - string
  *
  * Relations
  */
-export function IsRegularCase(opt?: ValidatorOpt): PropertyDecorator;
-export function IsRegularCase(opt?: ValidatorOpt): ParameterDecorator;
-export function IsRegularCase(opt?: ValidatorOptExt): ClassDecorator;
-export function IsRegularCase(opt?: ValidatorOptExt): MethodDecorator;
-export function IsRegularCase(
+export function IsSentenceCase(opt?: ValidatorOpt): PropertyDecorator;
+export function IsSentenceCase(opt?: ValidatorOpt): ParameterDecorator;
+export function IsSentenceCase(opt?: ValidatorOptExt): ClassDecorator;
+export function IsSentenceCase(opt?: ValidatorOptExt): MethodDecorator;
+export function IsSentenceCase(
     opt?: ValidatorOpt | ValidatorOptExt,
 ): PropertyDecorator | ParameterDecorator | ClassDecorator | MethodDecorator {
     return (clazz: object, property?: PropertyKey, index?: number) => deco.process([clazz, property, index], { opt });
 }
 
 const deco = decoratorPool
-    .newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>, ValidatorParam>(IsRegularCase)
+    .newId<ValidatorStored<P>, ValidatorMetadata<P, H, E>, ValidatorParam>(IsSentenceCase)
     .fqn(FQN)
     .targets('field', 'parameter')
     .keywords(IdValidator)
@@ -47,14 +47,13 @@ const deco = decoratorPool
         ins.set({ opt, params });
     })
     .metadata({
-        error: '{{field}} must be regular case',
+        error: '{{field}} must be sentence case',
         is: (data) => typeof data === 'string',
         validates: (data, current) => {
-            if (!RegularCase.exact(data)) {
+            if (!SentenceCase.exact(data)) {
                 return current.failed({});
             }
 
             return current.ignored();
         },
     });
-export const IsHumanize = IsRegularCase;
