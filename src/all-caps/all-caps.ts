@@ -13,6 +13,10 @@ export class AllCaps {
         any: 99,
     } as CastPriority;
 
+    static canBe(value: unknown): boolean {
+        return this.exact(value);
+    }
+
     static exact(value: unknown): boolean {
         return $is.text(value) && /^[$]*[A-Z$]+[A-Z0-9$]*(_[A-Z0-9$]+)*$/g.test(value as string);
     }

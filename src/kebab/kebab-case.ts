@@ -12,6 +12,10 @@ export class KebabCase {
         any: 99,
     } as CastPriority;
 
+    static canBe(value: unknown): boolean {
+        return this.exact(value);
+    }
+
     static exact(value: unknown): boolean {
         return $is.text(value) && /^[a-z$]+[a-z0-9$]*(-[a-z0-9$]+)*$/g.test(value as string);
     }

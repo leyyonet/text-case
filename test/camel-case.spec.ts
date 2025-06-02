@@ -6,7 +6,6 @@ import { CamelCase } from '../src';
 import { TextCaseItem } from './index.types';
 
 const fullPath = path.normalize(process.env.PWD + '/test/samples.json');
-console.log(fullPath);
 const samples = JSON.parse(fs.readFileSync(fullPath, 'utf8')) as Array<TextCaseItem>;
 
 describe('CamelCase', () => {
