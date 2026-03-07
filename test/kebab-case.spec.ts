@@ -1,34 +1,32 @@
-import { strict as assert } from 'assert';
-import fs from 'fs';
-import path from 'node:path';
+import { assert, beforeAll, describe, it } from "vitest";
+import { initTest } from "@leyyo/common";
+import { samples } from "./test.helper.js";
+import { isKebabCase, toKebabCase } from "../src/index.js";
 
-import { KebabCase } from '../src';
-import { TextCaseItem } from './index.types';
+beforeAll(() => initTest());
 
-const fullPath = path.normalize(process.env.PWD + '/test/samples.json');
-const samples = JSON.parse(fs.readFileSync(fullPath, 'utf8')) as Array<TextCaseItem>;
-
-describe('KebabCase', () => {
-    describe('cast', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.word, () => {
-                assert.strictEqual(KebabCase.cast(wordItem.word), wordItem.kebabCase);
-            });
-        });
+describe("KebabCase", () => {
+  describe("to", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.word, () => {
+        assert.strictEqual(toKebabCase(wordItem.word), wordItem.kebabCase);
+      });
     });
+  });
 
-    describe('validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.kebabCase, () => {
-                assert.equal(KebabCase.exact(KebabCase.cast(wordItem.word)), true);
-            });
-        });
+  describe("validated", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.word, () => {
+        assert.equal(isKebabCase(toKebabCase(wordItem.word)), true);
+      });
     });
-    describe('not-validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.pascalCase, () => {
-                assert.equal(KebabCase.exact(wordItem.pascalCase), false);
-            });
-        });
+  });
+
+  describe("not-validated", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.camelCase, () => {
+        assert.equal(isKebabCase(wordItem.camelCase), false);
+      });
     });
+  });
 });

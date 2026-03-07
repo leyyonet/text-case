@@ -1,34 +1,32 @@
-import { strict as assert } from 'assert';
-import fs from 'fs';
-import path from 'node:path';
+import { assert, beforeAll, describe, it } from "vitest";
+import { initTest } from "@leyyo/common";
+import { samples } from "./test.helper.js";
+import { isSnakeCase, toSnakeCase } from "../src/index.js";
 
-import { SnakeCase } from '../src';
-import { TextCaseItem } from './index.types';
+beforeAll(() => initTest());
 
-const fullPath = path.normalize(process.env.PWD + '/test/samples.json');
-const samples = JSON.parse(fs.readFileSync(fullPath, 'utf8')) as Array<TextCaseItem>;
-
-describe('SnakeCase', () => {
-    describe('cast', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.word, () => {
-                assert.strictEqual(SnakeCase.cast(wordItem.word), wordItem.snakeCase);
-            });
-        });
+describe("SnakeCase", () => {
+  describe("to", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.word, () => {
+        assert.strictEqual(toSnakeCase(wordItem.word), wordItem.allCaps);
+      });
     });
+  });
 
-    describe('validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.snakeCase, () => {
-                assert.equal(SnakeCase.exact(SnakeCase.cast(wordItem.word)), true);
-            });
-        });
+  describe("validated", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.word, () => {
+        assert.equal(isSnakeCase(toSnakeCase(wordItem.word)), true);
+      });
     });
-    describe('not-validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.headerCase, () => {
-                assert.equal(SnakeCase.exact(wordItem.headerCase), false);
-            });
-        });
+  });
+
+  describe("not-validated", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.camelCase, () => {
+        assert.equal(isSnakeCase(wordItem.camelCase), false);
+      });
     });
+  });
 });

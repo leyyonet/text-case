@@ -1,34 +1,32 @@
-import { strict as assert } from 'assert';
-import fs from 'fs';
-import path from 'node:path';
+import { assert, beforeAll, describe, it } from "vitest";
+import { initTest } from "@leyyo/common";
+import { samples } from "./test.helper.js";
+import { isPascalCase, toPascalCase } from "../src/index.js";
 
-import { PascalCase } from '../src';
-import { TextCaseItem } from './index.types';
+beforeAll(() => initTest());
 
-const fullPath = path.normalize(process.env.PWD + '/test/samples.json');
-const samples = JSON.parse(fs.readFileSync(fullPath, 'utf8')) as Array<TextCaseItem>;
-
-describe('PascalCase', () => {
-    describe('cast', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.word, () => {
-                assert.strictEqual(PascalCase.cast(wordItem.word), wordItem.pascalCase);
-            });
-        });
+describe("PascalCase", () => {
+  describe("to", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.word, () => {
+        assert.strictEqual(toPascalCase(wordItem.word), wordItem.pascalCase);
+      });
     });
+  });
 
-    describe('validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.pascalCase, () => {
-                assert.equal(PascalCase.exact(PascalCase.cast(wordItem.word)), true);
-            });
-        });
+  describe("validated", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.word, () => {
+        assert.equal(isPascalCase(toPascalCase(wordItem.word)), true);
+      });
     });
-    describe('not-validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.kebabCase, () => {
-                assert.equal(PascalCase.exact(wordItem.kebabCase), false);
-            });
-        });
+  });
+
+  describe("not-validated", () => {
+    samples.forEach((wordItem) => {
+      it(wordItem.camelCase, () => {
+        assert.equal(isPascalCase(wordItem.camelCase), false);
+      });
     });
+  });
 });
