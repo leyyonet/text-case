@@ -1,6 +1,6 @@
 {
     "name": "@leyyo/text-case",
-    "version": "4.0.3",
+    "version": "4.0.4",
     "description": "Converts different naming conventions",
     "keywords": [
         "camelCase",
@@ -75,6 +75,6 @@
     },
     "dependencies": {
         "@leyyo/common": "4.0.16",
-        "@leyyo/type": "4.0.11"
+        "@leyyo/type": "4.0.12"
     }
 }
