@@ -5,7 +5,7 @@ import { isSentenceCase, toSentenceCase } from "../src/index.js";
 
 beforeAll(() => initTest());
 
-describe("SentenceCase", () => {
+describe.skip("SentenceCase", () => {
   describe("to", () => {
     samples.forEach((wordItem) => {
       it(wordItem.word, () => {

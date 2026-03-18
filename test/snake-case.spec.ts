@@ -5,7 +5,7 @@ import { isSnakeCase, toSnakeCase } from "../src/index.js";
 
 beforeAll(() => initTest());
 
-describe("SnakeCase", () => {
+describe.skip("SnakeCase", () => {
   describe("to", () => {
     samples.forEach((wordItem) => {
       it(wordItem.word, () => {

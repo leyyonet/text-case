@@ -1,16 +1,18 @@
-import { defineForetell, errorPool, leyyoCommonForetell, literalPool } from "@leyyo/common";
+import { definePredictor, errorPool, literalPool } from "@leyyo/common";
 import { PCK } from "../internal.js";
-import { leyyoTypeForetell } from "@leyyo/type";
 
 // noinspection JSUnusedGlobalSymbols
-export const leyyoTextCaseForetell = defineForetell(PCK)
-  .dependency(leyyoCommonForetell, leyyoTypeForetell)
+export const leyyoTextCasePredictor = definePredictor(PCK)
+  .dependency(
+    () => import("@leyyo/common").then((m) => m.leyyoCommonPredictor),
+    () => import("@leyyo/type").then((m) => m.leyyoTypePredictor),
+  )
   .add(
     () =>
       errorPool.lazy(
         PCK,
-        "InvalidAllCapsError",
-        import("../error/invalid-const-case.error.js").then((m) => m.InvalidConstCaseError),
+        "InvalidAdaCaseError",
+        import("../error/invalid-ada-case.error.js").then((m) => m.InvalidAdaCaseError),
         { i18n: true, emit: true },
       ),
     () =>
@@ -20,6 +22,21 @@ export const leyyoTextCaseForetell = defineForetell(PCK)
         import("../error/invalid-camel-case.error.js").then((m) => m.InvalidCamelCaseError),
         { i18n: true, emit: true },
       ),
+    () =>
+      errorPool.lazy(
+        PCK,
+        "InvalidCobolCaseError",
+        import("../error/invalid-cobol-case.error.js").then((m) => m.InvalidCobolCaseError),
+        { i18n: true, emit: true },
+      ),
+    () =>
+      errorPool.lazy(
+        PCK,
+        "InvalidConstCaseError",
+        import("../error/invalid-const-case.error.js").then((m) => m.InvalidConstCaseError),
+        { i18n: true, emit: true },
+      ),
+
     () =>
       errorPool.lazy(
         PCK,
@@ -60,6 +77,20 @@ export const leyyoTextCaseForetell = defineForetell(PCK)
         PCK,
         "InvalidSnakeCaseError",
         import("../error/invalid-snake-case.error.js").then((m) => m.InvalidSnakeCaseError),
+        { i18n: true, emit: true },
+      ),
+    () =>
+      errorPool.lazy(
+        PCK,
+        "InvalidTextCaseError",
+        import("../error/invalid-text-case.error.js").then((m) => m.InvalidTextCaseError),
+        { i18n: true, emit: true },
+      ),
+    () =>
+      errorPool.lazy(
+        PCK,
+        "InvalidTrainCaseError",
+        import("../error/invalid-train-case.error.js").then((m) => m.InvalidTrainCaseError),
         { i18n: true, emit: true },
       ),
   )

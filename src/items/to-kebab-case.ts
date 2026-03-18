@@ -1,20 +1,21 @@
-import {ToOpt, toTextOf, typeHelper} from "@leyyo/type";
+import { ToOpt, toTextOf, typeHelper } from "@leyyo/type";
 import { optCheck, OptFn } from "@leyyo/common";
-import {InvalidAllCapsError, InvalidKebabCaseError} from "../error/index.js";
-import {textCaseHelper} from "../items/index.js";
+import { InvalidConstCaseError, InvalidKebabCaseError } from "../error/index.js";
+import { textCaseHelper } from "./index.js";
 
 // noinspection JSUnusedGlobalSymbols
 /**
- * Convert value as ALL_CAPS
+ * Convert value as kebab case (foo-bar)
+ * - hyphenated, lowercase
  *
  * @param {any} value
  * @param {ToOpt} options - options
- * @return {string} - all caps text
+ * @return {string} - kebab case text
  * */
 export function toKebabCase(value: unknown, options?: ToOpt | OptFn): string {
-    const o = optCheck<ToOpt>(options);
-    typeHelper.errorClass(o, InvalidAllCapsError);
-    return toTextOf(value, 'kebab-case', _lambda, o);
+  const o = optCheck<ToOpt>(options);
+  typeHelper.errorClass(o, InvalidKebabCaseError);
+  return toTextOf(value, "kebab-case", _lambda, o);
 }
 
 /**
@@ -22,5 +23,5 @@ export function toKebabCase(value: unknown, options?: ToOpt | OptFn): string {
  * @return {string}
  * */
 function _lambda(str: string): string {
-    return textCaseHelper.tokenize(str).join("-");
+  return textCaseHelper.tokenize(str).join("-");
 }

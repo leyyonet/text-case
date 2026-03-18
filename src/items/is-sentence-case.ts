@@ -1,8 +1,10 @@
 import { isText } from "@leyyo/common";
 
-const _pattern = /^[A-Z][a-z0-9$]*( [a-z0-9$]*)*$/g;
+const _pattern = /^[A-Z$][a-z0-9$]*(?: [a-z0-9$]+)*$/;
+
 /**
- * Check value is all caps
+ * Check value is sentence case (Foo bar)
+ * - spaced, first capitalised
  *
  * @param {any} value
  * @return {boolean}

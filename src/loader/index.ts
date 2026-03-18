@@ -1,2 +1,2 @@
-export * from "./index.types.js";
-export * from "./text-case-helper.js";
+export * from "./leyyo-text-case-predictor.js";
+export * from "./leyyo-text-case-lazy.js";

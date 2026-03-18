@@ -1,23 +1,21 @@
-import {ToOpt, toTextOf, typeHelper} from "@leyyo/type";
+import { ToOpt, toTextOf, typeHelper } from "@leyyo/type";
 import { optCheck, OptFn } from "@leyyo/common";
 import { textCaseHelper } from "./index.js";
-import {InvalidConstCaseError} from "../error/index.js";
+import { InvalidConstCaseError } from "../error/index.js";
 
 // noinspection JSUnusedGlobalSymbols
 /**
- * Convert value as const case (FOO_BAR)
- * - underscored, uppercase
- *
- * @alias AllCaps
+ * Convert value as cobol case (FOO-BAR)
+ * - hyphenated, uppercase
  *
  * @param {any} value
  * @param {ToOpt} options - options
  * @return {string} - const case text
  * */
-export function toConstCase(value: unknown, options?: ToOpt | OptFn): string {
+export function toCobolCase(value: unknown, options?: ToOpt | OptFn): string {
   const o = optCheck<ToOpt>(options);
   typeHelper.errorClass(o, InvalidConstCaseError);
-  return toTextOf(value, 'const-case', _lambda, o);
+  return toTextOf(value, "cobol-case", _lambda, o);
 }
 
 /**
@@ -25,5 +23,5 @@ export function toConstCase(value: unknown, options?: ToOpt | OptFn): string {
  * @return {string}
  * */
 function _lambda(str: string): string {
-  return textCaseHelper.tokenize(str).join("_").toUpperCase();
+  return textCaseHelper.tokenize(str).join("-").toUpperCase();
 }

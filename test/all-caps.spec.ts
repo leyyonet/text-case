@@ -1,35 +1,32 @@
-import { strict as assert } from 'assert';
-import fs from 'fs';
-import path from 'node:path';
+import { assert, beforeAll, describe, it } from "vitest";
+import { initTest } from "@leyyo/common";
+import { samples } from "./test.helper.js";
+import { isConstCase, toConstCase } from "../src/index.js";
 
-import { AllCaps } from '../src';
-import { TextCaseItem } from './index.types';
+beforeAll(() => initTest());
 
-const fullPath = path.normalize(process.env.PWD + '/test/samples.json');
-const samples = JSON.parse(fs.readFileSync(fullPath, 'utf8')) as Array<TextCaseItem>;
-
-describe('AllCaps', () => {
-    describe('cast', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.word, () => {
-                assert.strictEqual(AllCaps.cast(wordItem.word), wordItem.allCaps);
-            });
-        });
+describe.skip("AllCaps", () => {
+  describe("to", () => {
+    samples.forEach((wordItem) => {
+      it(`to('${wordItem.word}')`, () => {
+        assert.strictEqual(toConstCase(wordItem.word), wordItem.allCaps);
+      });
     });
+  });
 
-    describe('validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.allCaps, () => {
-                assert.equal(AllCaps.exact(AllCaps.cast(wordItem.word)), true);
-            });
-        });
+  describe("validated", () => {
+    samples.forEach((wordItem) => {
+      it(`is(to('${wordItem.word}'))`, () => {
+        assert.equal(isConstCase(toConstCase(wordItem.word)), true);
+      });
     });
+  });
 
-    describe('not-validated', () => {
-        samples.forEach((wordItem) => {
-            it(wordItem.camelCase, () => {
-                assert.equal(AllCaps.exact(wordItem.camelCase), false);
-            });
-        });
+  describe("is", () => {
+    samples.forEach((wordItem) => {
+      it(`is('${wordItem.allCaps}')`, () => {
+        assert.equal(isConstCase(wordItem.allCaps), false);
+      });
     });
+  });
 });

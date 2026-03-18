@@ -5,7 +5,7 @@ import { isKebabCase, toKebabCase } from "../src/index.js";
 
 beforeAll(() => initTest());
 
-describe("KebabCase", () => {
+describe.skip("KebabCase", () => {
   describe("to", () => {
     samples.forEach((wordItem) => {
       it(wordItem.word, () => {

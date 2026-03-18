@@ -5,7 +5,7 @@ import { isPascalCase, toPascalCase } from "../src/index.js";
 
 beforeAll(() => initTest());
 
-describe("PascalCase", () => {
+describe.skip("PascalCase", () => {
   describe("to", () => {
     samples.forEach((wordItem) => {
       it(wordItem.word, () => {

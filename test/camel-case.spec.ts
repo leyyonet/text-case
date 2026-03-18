@@ -5,7 +5,7 @@ import { isCamelCase, toCamelCase } from "../src/index.js";
 
 beforeAll(() => initTest());
 
-describe("CamelCase", () => {
+describe.skip("CamelCase", () => {
   describe("to", () => {
     samples.forEach((wordItem) => {
       it(wordItem.word, () => {

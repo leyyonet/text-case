@@ -4,56 +4,73 @@
  * Case Type Items
  * */
 export const CaseTypeItems = [
-    /*
-    * All Caps
-    * @sample: FOO_BAR
-    * */
-    'all-caps',
+  /*
+   * Ada Case (Foo_Bar)
+   * - underscored, capitalised
+   * */
+  "ada-case",
 
-    /*
-    * Camel Case
-    * @sample: fooBar
-    * */
-    'camel-case',
+  /*
+   * Camel Case (fooBar)
+   * - first lowercase then all capitalised
+   * */
+  "camel-case",
 
-    /*
-    * Header Case
-    * @sample: Foo Bar
-    * */
-    'header-case',
+  /*
+   * Cobol Case (FOO-BAR)
+   * - hyphenated, uppercase
+   * */
+  "cobol-case",
 
-    /*
-    * Kebab Case
-    * @sample: foo-bar
-    * */
-    'kebab-case',
+  /*
+   * Const Case (FOO_BAR)
+   * - underscored, uppercase
+   * */
+  "const-case",
 
-    /*
-    * Pascal Case
-    * @sample: PascalCase
-    * */
-    'pascal-case',
+  /*
+   * Header Case (Foo Bar)
+   * - spaced, all capitalised
+   * */
+  "header-case",
 
-    /*
-    * Regular Case
-    * @sample: foo bar
-    * */
-    'regular-case',
+  /*
+   * Kebab Case (foo-bar)
+   * - hyphenated, lowercase
+   * */
+  "kebab-case",
 
-    /*
-    * Snake Case
-    * @sample: foo_bar
-    * */
-    'snake-case',
+  /*
+   * Pascal Case (FooBar)
+   * - all capitalised
+   * */
+  "pascal-case",
 
-    /*
-    * Sentence Case
-    * @sample: Foo bar
-    * */
-    'sentence-case',
+  /*
+   * Regular Case (foo bar)
+   * - spaced, lowercase
+   * */
+  "regular-case",
 
+  /*
+   * Sentence Case (Foo bar)
+   * - spaced, first capitalised
+   * */
+  "sentence-case",
+
+  /*
+   * Snake Case (foo_bar)
+   * - underscored, lowercase
+   * */
+  "snake-case",
+
+  /*
+   * Train Case (Foo-Bar)
+   * - hyphenated, capitalised
+   * */
+  "train-case",
 ] as const;
 /**
  * Case Types
  * */
-export type CaseType = typeof CaseTypeItems[number];
+export type CaseType = (typeof CaseTypeItems)[number];
